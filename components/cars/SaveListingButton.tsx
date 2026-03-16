@@ -33,7 +33,7 @@ export default function SaveListingButton({
   const [showAuthHint, setShowAuthHint] = useState(false);
   const [closingHint, setClosingHint] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const hintTimer = useRef<number | undefined>(undefined);
+  const hintTimer = useRef<number | undefined>();
 
   const authTitle = useMemo(() => {
     if (locale === "de") {
@@ -61,11 +61,17 @@ export default function SaveListingButton({
     }
 
     hintTimer.current = window.setTimeout(() => closeHint(), 2600);
-    return () => window.clearTimeout(hintTimer.current);
+    return () => {
+      if (hintTimer.current) {
+        window.clearTimeout(hintTimer.current);
+      }
+    };
   }, [showAuthHint]);
 
   function closeHint() {
-    window.clearTimeout(hintTimer.current);
+    if (hintTimer.current) {
+      window.clearTimeout(hintTimer.current);
+    }
     setClosingHint(true);
     window.setTimeout(() => {
       setShowAuthHint(false);
