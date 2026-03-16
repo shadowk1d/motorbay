@@ -15,7 +15,7 @@ export default function LogoutToast({title, text, close}: LogoutToastProps) {
   const searchParams = useSearchParams();
   const [visible, setVisible] = useState(false);
   const [closing, setClosing] = useState(false);
-  const autoTimer = useRef<ReturnType<typeof setTimeout>>();
+  const autoTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (searchParams.get("logout") === "1") {
