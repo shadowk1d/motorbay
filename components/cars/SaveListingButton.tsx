@@ -33,7 +33,7 @@ export default function SaveListingButton({
   const [showAuthHint, setShowAuthHint] = useState(false);
   const [closingHint, setClosingHint] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const hintTimer = useRef<ReturnType<typeof setTimeout>>();
+  const hintTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const authTitle = useMemo(() => {
     if (locale === "de") {
