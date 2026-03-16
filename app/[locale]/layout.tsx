@@ -1,6 +1,7 @@
 import {NextIntlClientProvider} from "next-intl";
 import {getMessages, setRequestLocale} from "next-intl/server";
 import {notFound} from "next/navigation";
+import {Suspense} from "react";
 import {routing} from "@/i18n/routing";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -32,11 +33,13 @@ export default async function LocaleLayout({children, params}: Props) {
       <HtmlLang locale={locale} />
       <div className="site-shell">
         <Header />
-        <LogoutToast
-          title={messages.Header.loggedOutTitle as string}
-          text={messages.Header.loggedOutText as string}
-          close={messages.Header.loggedOutClose as string}
-        />
+        <Suspense fallback={null}>
+          <LogoutToast
+            title={messages.Header.loggedOutTitle as string}
+            text={messages.Header.loggedOutText as string}
+            close={messages.Header.loggedOutClose as string}
+          />
+        </Suspense>
         <div className="site-content">{children}</div>
         <Footer />
         <CookieBanner
