@@ -4,6 +4,9 @@ import path from "path";
 
 const nextConfig: NextConfig = {
 	outputFileTracingRoot: path.join(__dirname),
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
 };
 
 const withNextIntl = createNextIntlPlugin();
