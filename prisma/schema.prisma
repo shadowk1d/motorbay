@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Car {
+  id                         Int        @id @default(autoincrement())
+  brand                      String
+  model                      String
+  variant                    String?
+  year                       Int
+  price                      Int
+  mileage                    Int
+  fuel                       String
+  transmission               String
+  description                String
+  imageUrl                   String?
+  imagePublicId              String?
+  createdAt                  DateTime   @default(now())
+  condition                  String?
+  bodyType                   String?
+  sellerType                 String?
+  driveType                  String?
+  firstRegistration          String?
+  ownersCount                Int?
+  weightKg                   Int?
+  powerKw                    Int?
+  powerHp                    Int?
+  displacementCc             Int?
+  fuelConsumption            String?
+  co2Emission                Int?
+  co2Class                   String?
+  emissionSticker            String?
+  seats                      Int?
+  doors                      String?
+  huUntil                    String?
+  airConditioning            String?
+  parkingAssist              String?
+  airbags                    String?
+  color                      String?
+  interior                   String?
+  towingCapacityBrakedKg     Int?
+  towingCapacityUnbrakedKg   Int?
+  cylinders                  Int?
+  tankVolumeL                Int?
+  category                   String?
+  trimLine                   String?
+  origin                     String?
+
+  images                     CarImage[]
+  savedBy                    SavedCar[]
+}
+
+model CarImage {
+  id        Int      @id @default(autoincrement())
+  url       String
+  publicId  String?
+  order     Int      @default(0)
+  carId     Int
+  car       Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id           Int        @id @default(autoincrement())
+  name         String?
+  email        String     @unique
+  passwordHash String
+  role         Role       @default(USER)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  savedCars    SavedCar[]
+}
+
+model EmailOtp {
+  id        Int      @id @default(autoincrement())
+  email     String
+  purpose   String
+  codeHash  String
+  attempts  Int      @default(0)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([email, purpose, createdAt])
+}
+
+model SavedCar {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  carId     Int
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  car       Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, carId])
+}
