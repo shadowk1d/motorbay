@@ -28,6 +28,7 @@ export default function SaveListingButton({
   loginToSaveLabel,
   className
 }: SaveListingButtonProps) {
+  const unavailableLabel = "Недоступно";
   const router = useRouter();
   const [isSaved, setIsSaved] = useState(initialSaved);
   const [showAuthHint, setShowAuthHint] = useState(false);
@@ -121,10 +122,10 @@ export default function SaveListingButton({
         disabled={isPending}
         className={`${className || ""}${!isAuthenticated ? " unauth-save-button" : ""}`.trim()}
         aria-disabled={!isAuthenticated}
-        aria-label={isAuthenticated ? (isSaved ? savedLabel : saveLabel) : loginToSaveLabel}
-        title={isAuthenticated ? (isSaved ? savedLabel : saveLabel) : loginToSaveLabel}
+        aria-label={isAuthenticated ? (isSaved ? savedLabel : saveLabel) : unavailableLabel}
+        title={isAuthenticated ? (isSaved ? savedLabel : saveLabel) : unavailableLabel}
       >
-        {isAuthenticated ? (isSaved ? savedLabel : saveLabel) : loginToSaveLabel}
+        {isAuthenticated ? (isSaved ? savedLabel : saveLabel) : unavailableLabel}
       </button>
 
       {showAuthHint ? (
