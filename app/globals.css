@@ -1475,12 +1475,13 @@ html[lang="de"] .hero-actions .secondary-button {
 
 .car-detail-cta-row {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .car-detail-cta-row > * {
-  min-width: 180px;
+  min-width: 140px;
 }
 
 .car-hero-facts {
