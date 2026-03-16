@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic car pages
   const cars = await prisma.car.findMany({
-    select: { id: true, updatedAt: true },
+    select: { id: true, createdAt: true },
     orderBy: { createdAt: "desc" },
   });
 
@@ -38,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const locale of LOCALES) {
       entries.push({
         url: `${BASE_URL}/${locale}/cars/${car.id}`,
-        lastModified: car.updatedAt,
+        lastModified: car.createdAt,
         changeFrequency: "weekly",
         priority: 0.9,
       });
